@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FAEEEB"
+        tools:context=".ui.checkout.CheckoutActivity">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:background="@drawable/top_navigation_border"
+            android:backgroundTint="@color/white"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_8sdp"
+                android:src="@drawable/arrow_back" />
+
+        </LinearLayout>
+
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/cardView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/_8sdp"-->
+<!--            android:elevation="@dimen/_4sdp"-->
+<!--            app:cardCornerRadius="@dimen/_15sdp"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="@dimen/_12sdp"-->
+<!--                    android:text="Kontak"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="@dimen/_15sdp" />-->
+
+
+<!--                <EditText-->
+<!--                    android:id="@+id/etNamaDepan"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/_30sdp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                    android:layout_marginTop="@dimen/_8sdp"-->
+<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                    android:background="@drawable/edittext_border"-->
+<!--                    android:hint="Masukan Nama Depan "-->
+<!--                    android:inputType="text"-->
+<!--                    android:paddingStart="@dimen/_10sdp" />-->
+
+
+<!--                <EditText-->
+<!--                    android:id="@+id/etNamaBelakang"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/_30sdp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                    android:layout_marginTop="@dimen/_12sdp"-->
+<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                    android:layout_marginBottom="@dimen/_10sdp"-->
+<!--                    android:background="@drawable/edittext_border"-->
+<!--                    android:hint="Masukan Nama Belakang "-->
+<!--                    android:inputType="text"-->
+<!--                    android:paddingStart="@dimen/_10sdp" />-->
+
+
+<!--            </LinearLayout>-->
+
+<!--        </androidx.cardview.widget.CardView>-->
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:elevation="@dimen/_4sdp"
+            app:cardCornerRadius="@dimen/_15sdp"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:text="Alamat"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15sdp" />
+
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Alamat "
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp" />
+
+
+<!--                <EditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/_30sdp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginStart="@dimen/_10sdp"-->
+<!--                    android:layout_marginTop="@dimen/_12sdp"-->
+<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+<!--                    android:background="@drawable/edittext_border"-->
+<!--                    android:hint="Kode Pos"-->
+<!--                    android:inputType="number"-->
+<!--                    android:paddingStart="@dimen/_10sdp" />-->
+
+
+                <EditText
+                    android:id="@+id/etProvinsi"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Provinsi"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp" />
+
+
+                <EditText
+                    android:id="@+id/etKota"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Kota/Kabupaten"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp" />
+
+
+                <EditText
+                    android:id="@+id/etKecamatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Kecamatan"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp" />
+
+
+                <EditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_18sdp"
+                    android:background="@drawable/edittext_border"
+                    android:hint="Notes"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/_10sdp" />
+
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCheckout"
+            android:layout_width="@dimen/_233sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:background="@drawable/button_border"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
