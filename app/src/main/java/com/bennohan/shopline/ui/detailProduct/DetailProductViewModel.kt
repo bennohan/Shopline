@@ -3,6 +3,7 @@ package com.bennohan.shopline.ui.detailProduct
 import androidx.lifecycle.viewModelScope
 import com.bennohan.shopline.api.ApiService
 import com.bennohan.shopline.base.BaseViewModel
+import com.bennohan.shopline.data.ImageSlide
 import com.bennohan.shopline.data.Product
 import com.bennohan.shopline.data.Session
 import com.crocodic.core.api.ApiCode
@@ -24,18 +25,18 @@ class DetailProductViewModel @Inject constructor(
     private val session: Session,
 ) : BaseViewModel() {
 
-    var product = MutableSharedFlow<Product?>()
-    val imageSlider = MutableSharedFlow<List<Product.ImageSlide?>>()
+    var product = MutableSharedFlow<Product>()
+    val imageSlider = MutableSharedFlow<List<ImageSlide>>()
 
     fun getProduct(id: Int) = viewModelScope.launch {
         ApiObserver({ apiService.getProductById(id) },
             false, object : ApiObserver.ResponseListener {
                 override suspend fun onSuccess(response: JSONObject) {
                     val data = response.getJSONObject(ApiCode.DATA).toObject<Product>(gson)
-                    val image = response.getJSONArray(ApiCode.DATA).toList<Product.ImageSlide>(gson)
-                    _apiResponse.send(ApiResponse().responseSuccess())
                     product.emit(data)
+                    val image = response.getJSONArray("image_sliders").toList<ImageSlide>(gson)
                     imageSlider.emit(image)
+//                    _apiResponse.send(ApiResponse().responseSuccess())
                 }
 
                 override suspend fun onError(response: ApiResponse) {

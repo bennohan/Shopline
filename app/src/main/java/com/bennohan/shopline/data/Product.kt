@@ -86,24 +86,7 @@ data class Product(
         @SerializedName("updated_at")
         val updatedAt: String?,
     ) : Parcelable
-    @Parcelize
-    data class ImageSlide(
-        @Expose
-        @SerializedName("id")
-        val id: Int?,
-        @Expose
-        @SerializedName("product_id")
-        val productId: Int?,
-        @Expose
-        @SerializedName("image")
-        val imageS: String?,
-        @Expose
-        @SerializedName("created_at")
-        val createdAt: String?,
-        @Expose
-        @SerializedName("updated_at")
-        val updatedAt: String?,
-    ) : Parcelable
+
 }
 
 

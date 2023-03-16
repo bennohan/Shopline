@@ -7,6 +7,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bennohan.shopline.R
 import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.data.Cons
+import com.bennohan.shopline.data.ImageSlide
 import com.bennohan.shopline.data.Product
 import com.bennohan.shopline.databinding.ActivityDetailProductBinding
 import com.bennohan.shopline.databinding.ItemDetailBinding
@@ -37,6 +38,11 @@ class DetailProductActivity :
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
+
+        //Variable Image slider
+        val imageSlider = findViewById<ImageSlider>(R.id.imageSlider)
+        imageSlider.setImageList(imageList)
+
     }
 
 
@@ -75,9 +81,22 @@ class DetailProductActivity :
                     }
                 }
 
+                launch {
+                    viewModel.imageSlider.collect{
+                        initSlider(it)
+                    }
+                }
 
             }
         }
+    }
+
+    private fun initSlider(data: List<ImageSlide>) {
+        val imageList = ArrayList<SlideModel>()
+        data.forEach {
+            imageList.add(SlideModel(it.imageS))
+        }
+        binding.imageSlider.setImageList(imageList, ScaleTypes.CENTER_CROP)
     }
 
 
