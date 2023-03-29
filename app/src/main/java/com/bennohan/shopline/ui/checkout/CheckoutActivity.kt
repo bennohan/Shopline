@@ -1,6 +1,5 @@
 package com.bennohan.shopline.ui.checkout
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -10,12 +9,10 @@ import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.databinding.ActivityCheckoutBinding
 import com.bennohan.shopline.ui.home.HomeActivity
 import com.crocodic.core.api.ApiStatus
-import com.crocodic.core.base.activity.NoViewModelActivity
 import com.crocodic.core.extension.isEmptyRequired
 import com.crocodic.core.extension.openActivity
 import com.crocodic.core.extension.textOf
 import com.crocodic.core.extension.tos
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -45,9 +42,9 @@ class CheckoutActivity :
                 launch {
                     viewModel.apiResponse.collect {
                         when (it.status) {
-                            ApiStatus.LOADING -> loadingDialog.show("login..in")
+                            ApiStatus.LOADING -> loadingDialog.show("Checking Out..")
                             ApiStatus.SUCCESS -> {
-                                tos(it.message ?: "Login Success")
+                                tos(it.message ?: "CheckOut Success")
                                 loadingDialog.setResponse(it.message ?: return@collect)
                                 loadingDialog.dismiss()
                                 openActivity<HomeActivity>()

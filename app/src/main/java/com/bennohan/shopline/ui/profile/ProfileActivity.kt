@@ -1,6 +1,5 @@
 package com.bennohan.shopline.ui.profile
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,9 +10,7 @@ import com.bennohan.shopline.data.Session
 import com.bennohan.shopline.databinding.ActivityProfileBinding
 import com.bennohan.shopline.ui.editProfile.EditProfileActivity
 import com.bennohan.shopline.ui.login.LoginActivity
-import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.extension.openActivity
-import com.crocodic.core.extension.tos
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -45,6 +42,13 @@ class ProfileActivity :
             logout()
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    getUser()
+                }
+            }
+        }
     }
 
     private fun getUser() {

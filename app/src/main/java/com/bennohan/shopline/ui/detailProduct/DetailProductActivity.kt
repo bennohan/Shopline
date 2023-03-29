@@ -1,6 +1,7 @@
 package com.bennohan.shopline.ui.detailProduct
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,37 +12,105 @@ import com.bennohan.shopline.data.ImageSlide
 import com.bennohan.shopline.data.Product
 import com.bennohan.shopline.databinding.ActivityDetailProductBinding
 import com.bennohan.shopline.databinding.ItemDetailBinding
+import com.bennohan.shopline.databinding.ItemDetailSizeBinding
 import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.adapter.ReactiveListAdapter
-import com.crocodic.core.extension.openActivity
-import com.denzcoskun.imageslider.ImageSlider
+import com.crocodic.core.extension.snacked
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailProductActivity :
     BaseActivity<ActivityDetailProductBinding, DetailProductViewModel>(R.layout.activity_detail_product) {
 
-    private var product: Product? = null
+
+    var product: Product? = null
+    private var listColor = ArrayList<Product.Variant?>()
+    private var selectColor: Product.Variant? = null
+    private var listSize = ArrayList<Product.Sizes?>()
+    private var selectSize: Product.Sizes? = null
+
+    private val adapterVariant by lazy {
+        object : ReactiveListAdapter<ItemDetailBinding, Product.Variant>(R.layout.item_detail) {
+            override fun onBindViewHolder(
+                holder: ItemViewHolder<ItemDetailBinding, Product.Variant>,
+                position: Int
+            ) {
+                //View Color
+                listColor[position]?.let { data ->
+                    holder.binding.data = data
+                    holder.binding.cardView.setBackgroundColor(
+                        if (data.selected) applicationContext.getColor(R.color.mainColor)
+                        else applicationContext.getColor(R.color.white)
+                    )
+
+                    //Data
+                    holder.itemView.setOnClickListener {
+                        listColor.forEachIndexed { index, variant ->
+                            variant?.selected = index == position
+                        }
+                        notifyDataSetChanged()
+                        selectColor = data
+                        condititonForColor(data.id)
+                        Timber.d("CekListColors: $listColor")
+                        println("CekListColors: $listColor")
+                    }
+                }
+            }
+        }.initItem()
+    }
+
+    private val adapterSize by lazy {
+        object :
+            ReactiveListAdapter<ItemDetailSizeBinding, Product.Sizes>(R.layout.item_detail_size) {
+            override fun onBindViewHolder(
+                holder: ItemViewHolder<ItemDetailSizeBinding, Product.Sizes>,
+                position: Int
+            ) {
+                listSize[position]?.let { data ->
+                    holder.binding.data = data
+                    holder.binding.cardView.setBackgroundColor(
+                        if (data.selected) applicationContext.getColor(R.color.mainColor)
+                        else applicationContext.getColor(R.color.white)
+                    )
+                    holder.itemView.setOnClickListener {
+                        listSize.forEachIndexed { index, Size ->
+                            Size?.selected = index == position
+                        }
+                        notifyDataSetChanged()
+                        selectSize = data
+                        Timber.d("CekListColors: $listSize")
+                        println("CekListColors: $listSize")
+                    }
+                }
+            }
+
+        }.initItem()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val imageList = ArrayList<SlideModel>()
-        productData()
-
         observe()
+
+        productData()
+        window.statusBarColor = resources.getColor(R.color.mainColor)
+
+
+        binding.rvVariant.adapter = adapterVariant
+        binding.rvSize.adapter = adapterSize
 
 
         binding.btnBack.setOnClickListener {
             onBackPressed()
         }
 
-        //Variable Image slider
-        val imageSlider = findViewById<ImageSlider>(R.id.imageSlider)
-        imageSlider.setImageList(imageList)
+        binding.btnAddCart.setOnClickListener {
+            addCart()
+        }
 
     }
 
@@ -56,36 +125,57 @@ class DetailProductActivity :
     private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                 launch {
                     viewModel.apiResponse.collect {
                         when (it.status) {
+                            ApiStatus.LOADING -> loadingDialog.show()
                             ApiStatus.SUCCESS -> {
-                                val data = product
-
-                                binding.data = data
+                                loadingDialog.dismiss()
+//                                tos("Product Added to Cart")
+                                loadingDialog.setResponse(it.message ?: return@collect)
+                            }
+                            ApiStatus.ERROR -> {
+                                loadingDialog.dismiss()
+                                binding.root.snacked("Product Has Been In Your Cart")
+                                loadingDialog.setResponse(it.message ?: return@collect)
 
                             }
                             else -> {
+                                loadingDialog.setResponse(it.message ?: return@collect)
 
                             }
                         }
-                    }
-
-
-                }
-
-                launch {
-                    viewModel.product.collect {
-                        binding.data = it
 
                     }
                 }
 
                 launch {
-                    viewModel.imageSlider.collect{
+                    viewModel.imageSlider.collect {
                         initSlider(it)
                     }
                 }
+                launch {
+                    viewModel.product.collect { product ->
+                        binding.data = product
+                        adapterVariant.submitList(product.variants)
+                        listColor.clear()
+                        product.variants?.let { list ->
+                            listColor.addAll(list)
+                        }
+
+                        adapterSize.submitList(product.sizes)
+                        listSize.clear()
+                        product.sizes?.let { list ->
+                            listSize.addAll(list)
+                        }
+
+                        product.imageSliders?.let { initSlider(it) }
+                        println("ListVariant: ${product.variants}")
+                        println("ListSizes: ${product.sizes}")
+                    }
+                }
+
 
             }
         }
@@ -99,5 +189,27 @@ class DetailProductActivity :
         binding.imageSlider.setImageList(imageList, ScaleTypes.CENTER_CROP)
     }
 
+    private fun condititonForColor(idVarian: Int?) {
+        if (selectColor == null) {
+            binding.rvSize.visibility = View.INVISIBLE
+        } else {
 
+            binding.rvSize.visibility = View.VISIBLE
+//            adapterColor.submitList(listColor)
+            val filterSize = listSize.filter {
+                it?.variantId == idVarian
+            }
+//            filterListSize.clear()
+//            filterListSize.addAll(filterSize)
+            adapterSize.submitList(filterSize)
+        }
+    }
+
+
+    private fun addCart() {
+        selectSize?.let {
+            viewModel.addCart(sizeId = selectSize?.id)
+
+        }
+    }
 }

@@ -11,7 +11,7 @@ import com.bennohan.shopline.data.Product
 import com.bennohan.shopline.data.Session
 import com.bennohan.shopline.databinding.ActivityHomeBinding
 import com.bennohan.shopline.databinding.ItemHomeBinding
-import com.bennohan.shopline.ui.checkout.CheckoutActivity
+import com.bennohan.shopline.ui.cart.CartActivity
 import com.bennohan.shopline.ui.detailProduct.DetailProductActivity
 import com.bennohan.shopline.ui.profile.ProfileActivity
 import com.crocodic.core.api.ApiStatus
@@ -27,13 +27,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
     @Inject
     lateinit var session: Session
 
-//    private val adapter by lazy {
-//        binding.rvHome.adapter = ReactiveListAdapter<ItemHomeBinding , Product>(R.layout.item_home)
-//            .initItem { position, data ->
-//
-//            }
-//
-//    }
 
     private val adapter by lazy {
         ReactiveListAdapter<ItemHomeBinding, Product>(R.layout.item_home).initItem { position, data ->
@@ -82,7 +75,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
         }
 
         binding.btnCart.setOnClickListener {
-            openActivity<CheckoutActivity>()
+            openActivity<CartActivity>()
         }
 
 

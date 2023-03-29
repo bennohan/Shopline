@@ -75,4 +75,7 @@ dependencies {
 //    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
     implementation 'com.github.wahyudotdev:ImageSlideshow:0.1.0'
 
+    //Refresh Layout
+    implementation"androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
 }

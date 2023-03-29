@@ -28,18 +28,27 @@ data class Product(
     val image: String?,
     @Expose
     @SerializedName("name")
-    val name: String?,
+    val nameProduct: String?,
+    @Expose
+    @SerializedName("qty")
+    val totalProduct: Int?,
     @Expose
     @SerializedName("updated_at")
     val updatedAt: String?,
+    @Expose
+    @SerializedName("total_cost")
+    val totalCost: String?,
     @SerializedName("rating")
     val rating: Float?,
     @SerializedName("sizes")
     val sizes: List<Sizes?>?,
     @SerializedName("image_sliders")
-    val imageSliders : List<ImageSlide?>?,
+    val imageSliders: List<ImageSlide>?,
     @SerializedName("variants")
-    val variants: List<Variant?>?
+    val variants: List<Variant?>?,
+    @SerializedName("product")
+    val productt: Productt?
+
 ) : Parcelable {
     @Parcelize
     data class Variant(
@@ -61,7 +70,9 @@ data class Product(
         @Expose
         @SerializedName("updated_at")
         val updatedAt: String?,
+        var selected: Boolean
     ) : Parcelable
+
     @Parcelize
     data class Sizes(
         @Expose
@@ -72,7 +83,7 @@ data class Product(
         val variantId: Int?,
         @Expose
         @SerializedName("size")
-        val size : String?,
+        val size: String?,
         @Expose
         @SerializedName("stock")
         val stock: String?,
@@ -85,8 +96,39 @@ data class Product(
         @Expose
         @SerializedName("updated_at")
         val updatedAt: String?,
+        var selected: Boolean
+    ) : Parcelable
+
+    @Parcelize
+    data class Productt(
+        @Expose
+        @SerializedName("active")
+        val active: String?,
+        @Expose
+        @SerializedName("category_id")
+        val categoryId: Int?,
+        @Expose
+        @SerializedName("created_at")
+        val createdAt: String?,
+        @Expose
+        @SerializedName("description")
+        val description: String?,
+        @Expose
+        @SerializedName("id")
+        val id: Int?,
+        @Expose
+        @SerializedName("image")
+        val image: String?,
+        @Expose
+        @SerializedName("name")
+        val nameProduct: String?,
+        @Expose
+        @SerializedName("updated_at")
+        val updatedAt: String?,
     ) : Parcelable
 
 }
+
+
 
 

@@ -1,10 +1,6 @@
 package com.bennohan.shopline.api
 
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -42,6 +38,32 @@ interface ApiService {
     //logout
     @POST("api/auth/logout")
     suspend fun logout() : String
+
+    //Add Cart
+    @FormUrlEncoded
+    @POST("api/chart")
+    suspend fun addCart(
+        @Field("size_id") sizeId : Int?,
+        @Field("qty") totalProduct : Int?,
+        ) : String
+
+    //Delete Cart
+    @POST("api/chart/delete/{id}")
+    suspend fun deleteCart(
+        @Path("id") id : Int
+    ) : String
+
+    //Edit Cart
+    @FormUrlEncoded
+    @POST("api/chart/edit/{id}")
+    suspend fun editCart(
+        @Path("id") id: Int?,
+        @Field("qty") qty: Int?
+        ):String
+
+    //Show Cart
+    @GET("api/chart")
+    suspend fun showCart() : String
 
     //Checkout
     @FormUrlEncoded

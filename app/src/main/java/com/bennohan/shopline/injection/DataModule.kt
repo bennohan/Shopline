@@ -72,6 +72,7 @@ class DataModule {
         return Retrofit.Builder()
             .baseUrl("https://magang.crocodic.net/ki/kelompok_3/ki-e-commerse-app/public/")
             .addConverterFactory(ScalarsConverterFactory.create())
+//            .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build().create(ApiService::class.java)
     }
