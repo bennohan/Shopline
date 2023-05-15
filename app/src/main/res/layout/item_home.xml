@@ -14,12 +14,14 @@
         android:layout_marginEnd="@dimen/_8sdp"
         android:elevation="10dp"
         android:layout_marginBottom="@dimen/_4sdp"
+        android:background="?selectableItemBackgroundBorderless"
         app:cardCornerRadius="@dimen/_8sdp"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?selectableItemBackgroundBorderless"
             android:orientation="vertical">
 
             <ImageView
@@ -30,7 +32,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:text='@{data.nameProduct}'
+                android:paddingStart="@dimen/_8sdp"
                 android:textColor="@color/black"
                 tools:text="Nama Barang" />
 
@@ -38,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Kategori Brang"
+                android:paddingStart="@dimen/_8sdp"
                 android:text='@{data.description}'
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -47,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Rp 50.000"
+                android:paddingStart="@dimen/_8sdp"
                 android:textColor="@color/black"/>
 
         </LinearLayout>

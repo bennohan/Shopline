@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_18sdp"
                 android:layout_marginTop="16dp"
-                android:text='@{data.totalCost}'
+                android:text='@{"Rp" + data.totalCost}'
                 android:textColor="@color/mainColor"
                 android:textSize="@dimen/_14sdp"
                 android:textStyle="bold"
@@ -79,6 +79,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="8dp"
                 android:clickable="true"
+                android:foreground="?selectableItemBackgroundBorderless"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_delete_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +110,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_add_circle_24"
+                android:foreground="?selectableItemBackgroundBorderless"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.384"
@@ -122,6 +124,7 @@
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/ic_baseline_remove_circle_24"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:foreground="?selectableItemBackgroundBorderless"
                 app:layout_constraintStart_toEndOf="@+id/btnDelete" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -46,12 +46,12 @@ class CartViewModel @Inject constructor(
             })
     }
 
-    fun deleteCart(id: Int) = viewModelScope.launch {
+    fun deleteCart(id: Int,position: Int) = viewModelScope.launch {
         _apiResponse.send(ApiResponse().responseLoading())
         ApiObserver({ apiService.deleteCart(id) },
             false, object : ApiObserver.ResponseListener {
                 override suspend fun onSuccess(response: JSONObject) {
-                    _apiResponse.send(ApiResponse().responseSuccess())
+                    _apiResponse.send(ApiResponse().responseSuccess(flagView = position))
                 }
 
                 override suspend fun onError(response: ApiResponse) {

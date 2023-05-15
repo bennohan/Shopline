@@ -1,6 +1,10 @@
 package com.bennohan.shopline.ui.home
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -14,9 +18,12 @@ import com.bennohan.shopline.databinding.ItemHomeBinding
 import com.bennohan.shopline.ui.cart.CartActivity
 import com.bennohan.shopline.ui.detailProduct.DetailProductActivity
 import com.bennohan.shopline.ui.profile.ProfileActivity
+import com.bennohan.shopline.ui.search.SearchActivity
 import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.adapter.ReactiveListAdapter
 import com.crocodic.core.extension.openActivity
+import com.denzcoskun.imageslider.constants.ScaleTypes
+import com.denzcoskun.imageslider.models.SlideModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,37 +43,20 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
         }
     }
 
-//    private val adapter = object : ReactiveListAdapter<ItemHomeBinding, Product>(R.layout.item_home) {
-//        override fun onBindViewHolder(
-//            holder: ItemViewHolder<ItemHomeBinding, Product>,
-//            position: Int
-//        ) {
-//            val item = getItem(position)
-//            item?.let { itm ->
-////                holder.binding.data = itm
-//                holder.bind(itm)
-//                holder.itemView.setOnClickListener {
-//                    openActivity<DetailProductActivity> {
-//                        putExtra(Cons.PRODUCT.PRODUCT, item)
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         observe()
         getUser()
-        getProduct()
+        imageSlider()
 
-        window.navigationBarColor = resources.getColor(R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+
 
         //Ask About This
         binding.rvHome.adapter = adapter
         binding.rvHome2.adapter = adapter
+        binding.rvHome3.adapter = adapter
 
         viewModel.getProduct()
 
@@ -78,6 +68,15 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
             openActivity<CartActivity>()
         }
 
+        binding.editText.setOnClickListener {
+            openActivity<SearchActivity>()
+        }
+        binding.tvShowMore.setOnClickListener {
+            binding.cardShowMore.visibility = View.VISIBLE
+        }
+        binding.tvHideProduct.setOnClickListener {
+            binding.cardShowMore.visibility = View.GONE
+        }
 
     }
 
@@ -100,17 +99,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
 
 
                 }
-            }
-        }
-    }
 
-    private fun getUser() {
-        viewModel.getProfile()
-    }
-
-    private fun getProduct() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.product.collect { product ->
                         adapter.submitList(product)
@@ -119,9 +108,46 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
 //                        adapter.submitList(notes)
 //                    }
                 }
+
             }
         }
     }
 
+    private fun imageSlider(){
+        val imageList = ArrayList<SlideModel>()
+
+        imageList.add(SlideModel("https://marketplace.canva.com/EAE7S1WxJW8/1/0/1600w/canva-orange-modern-promotion-sport-shoes-banner-suttfK_s9zg.jpg"))
+        imageList.add(SlideModel("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/supper-sale-banner-ad-for-shoes-offre-design-template-263b3813e52a6a6eb85fa45fd49ca3b4_screen.jpg?ts=1625994393",ScaleTypes.FIT))
+        imageList.add(SlideModel("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/shoes-sale-bannuer-design-template-38d8c87b5b44afb4906d2d55743a98ae_screen.jpg?ts=1616352652",ScaleTypes.FIT))
+
+        binding.imageView6.setImageList(imageList)
+    }
+
+
+    private fun getUser() {
+        viewModel.getProfile()
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this@HomeActivity)
+        builder.setTitle("Exit")
+        builder.setMessage("Are you sure you want to exit?.")
+            .setPositiveButton("Exit") { dialog, id ->
+                this@HomeActivity.finish()
+            }
+            .setNegativeButton("Cancel") { dialog, id ->
+                dialog.dismiss()
+            }
+        val dialog: AlertDialog = builder.create()
+
+        // Set the color of the positive button text
+        dialog.setOnShowListener {
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.red))
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.black))
+        }
+        dialog.show()
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.bennohan.shopline.api
 
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface ApiService {
@@ -11,6 +12,14 @@ interface ApiService {
         @Field("phone_number") phone: String,
         @Field("password") password: String
     ): String
+
+//    //login
+//    @FormUrlEncoded
+//    @POST("api/login")
+//    suspend fun login(
+//        @Field("nomor_telepon") phone: String,
+//        @Field("password") password: String
+//    ): String
 
     //getProfile
     @GET("api/profile")
@@ -34,6 +43,16 @@ interface ApiService {
         @Field("name") name: String,
         @Field("phone_number") phone: String,
     ) : String
+
+    //update Profile
+    @Multipart
+    @POST("api/profile")
+    suspend fun updateProfilePhoto(
+        @Part("name") name: String,
+        @Part("phone_number") phone: String,
+        @Part photo : MultipartBody.Part?
+    ) : String
+
 
     //logout
     @POST("api/auth/logout")

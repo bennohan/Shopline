@@ -9,10 +9,7 @@ import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.databinding.ActivityCheckoutBinding
 import com.bennohan.shopline.ui.home.HomeActivity
 import com.crocodic.core.api.ApiStatus
-import com.crocodic.core.extension.isEmptyRequired
-import com.crocodic.core.extension.openActivity
-import com.crocodic.core.extension.textOf
-import com.crocodic.core.extension.tos
+import com.crocodic.core.extension.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -22,8 +19,10 @@ class CheckoutActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        observe()
+
         binding.btnBack.setOnClickListener {
-            onBackPressed()
+            finish()
         }
         binding.btnCheckout.setOnClickListener {
             //Show alert if Text View is Empty
@@ -36,7 +35,9 @@ class CheckoutActivity :
             }
             checkout()
         }
+    }
 
+    private fun observe() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -44,15 +45,17 @@ class CheckoutActivity :
                         when (it.status) {
                             ApiStatus.LOADING -> loadingDialog.show("Checking Out..")
                             ApiStatus.SUCCESS -> {
-                                tos(it.message ?: "CheckOut Success")
+                                binding.root.snacked(it.message ?: "Checkout Success")
                                 loadingDialog.setResponse(it.message ?: return@collect)
                                 loadingDialog.dismiss()
+                                tos("Checkout Success")
                                 openActivity<HomeActivity>()
-                                finish()
+                                finishAffinity()
                             }
                             ApiStatus.ERROR -> {
                                 disconnect(it)
                                 loadingDialog.dismiss()
+                                tos("Checkout Failed")
                                 loadingDialog.setResponse(it.message ?: return@collect)
 //                                tos(it.message ?: "Login Failed")
 //                                tos(it.message ?: "Please Check Your Phone And Password Again")
@@ -63,7 +66,6 @@ class CheckoutActivity :
                 }
             }
         }
-
     }
 
     private fun checkout() {

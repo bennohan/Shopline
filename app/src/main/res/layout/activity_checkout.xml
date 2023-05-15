@@ -28,61 +28,61 @@
 
         </LinearLayout>
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/cardView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="@dimen/_8sdp"-->
-<!--            android:elevation="@dimen/_4sdp"-->
-<!--            app:cardCornerRadius="@dimen/_15sdp"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
+        <!--        <androidx.cardview.widget.CardView-->
+        <!--            android:id="@+id/cardView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_8sdp"-->
+        <!--            android:elevation="@dimen/_4sdp"-->
+        <!--            app:cardCornerRadius="@dimen/_15sdp"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/linearLayout">-->
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:orientation="vertical">-->
+        <!--            <LinearLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:orientation="vertical">-->
 
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_margin="@dimen/_12sdp"-->
-<!--                    android:text="Kontak"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="@dimen/_15sdp" />-->
-
-
-<!--                <EditText-->
-<!--                    android:id="@+id/etNamaDepan"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="@dimen/_30sdp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="@dimen/_10sdp"-->
-<!--                    android:layout_marginTop="@dimen/_8sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                    android:background="@drawable/edittext_border"-->
-<!--                    android:hint="Masukan Nama Depan "-->
-<!--                    android:inputType="text"-->
-<!--                    android:paddingStart="@dimen/_10sdp" />-->
+        <!--                <TextView-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:layout_margin="@dimen/_12sdp"-->
+        <!--                    android:text="Kontak"-->
+        <!--                    android:textColor="@color/black"-->
+        <!--                    android:textSize="@dimen/_15sdp" />-->
 
 
-<!--                <EditText-->
-<!--                    android:id="@+id/etNamaBelakang"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="@dimen/_30sdp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="@dimen/_10sdp"-->
-<!--                    android:layout_marginTop="@dimen/_12sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                    android:layout_marginBottom="@dimen/_10sdp"-->
-<!--                    android:background="@drawable/edittext_border"-->
-<!--                    android:hint="Masukan Nama Belakang "-->
-<!--                    android:inputType="text"-->
-<!--                    android:paddingStart="@dimen/_10sdp" />-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/etNamaDepan"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="@dimen/_30sdp"-->
+        <!--                    android:layout_gravity="center"-->
+        <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+        <!--                    android:layout_marginTop="@dimen/_8sdp"-->
+        <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+        <!--                    android:background="@drawable/edittext_border"-->
+        <!--                    android:hint="Masukan Nama Depan "-->
+        <!--                    android:inputType="text"-->
+        <!--                    android:paddingStart="@dimen/_10sdp" />-->
 
 
-<!--            </LinearLayout>-->
+        <!--                <EditText-->
+        <!--                    android:id="@+id/etNamaBelakang"-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="@dimen/_30sdp"-->
+        <!--                    android:layout_gravity="center"-->
+        <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+        <!--                    android:layout_marginTop="@dimen/_12sdp"-->
+        <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+        <!--                    android:layout_marginBottom="@dimen/_10sdp"-->
+        <!--                    android:background="@drawable/edittext_border"-->
+        <!--                    android:hint="Masukan Nama Belakang "-->
+        <!--                    android:inputType="text"-->
+        <!--                    android:paddingStart="@dimen/_10sdp" />-->
 
-<!--        </androidx.cardview.widget.CardView>-->
+
+        <!--            </LinearLayout>-->
+
+        <!--        </androidx.cardview.widget.CardView>-->
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
@@ -106,89 +106,130 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_15sdp" />
 
-
-                <EditText
-                    android:id="@+id/etAddress"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_gravity="center"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/edittext_border"
-                    android:hint="Alamat "
-                    android:inputType="text"
-                    android:paddingStart="@dimen/_10sdp" />
+                    android:background="@drawable/edittext_border">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:hint="Alamat"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--                <EditText-->
+                <!--                    android:id="@+id/etAddress"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="@dimen/_40sdp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_8sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+                <!--                    android:background="@drawable/edittext_border"-->
+                <!--                    android:hint="Alamat "-->
+                <!--                    android:inputType="text"-->
+                <!--                    android:paddingStart="@dimen/_10sdp" />-->
 
 
-<!--                <EditText-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="@dimen/_30sdp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:layout_marginStart="@dimen/_10sdp"-->
-<!--                    android:layout_marginTop="@dimen/_12sdp"-->
-<!--                    android:layout_marginEnd="@dimen/_10sdp"-->
-<!--                    android:background="@drawable/edittext_border"-->
-<!--                    android:hint="Kode Pos"-->
-<!--                    android:inputType="number"-->
-<!--                    android:paddingStart="@dimen/_10sdp" />-->
+                <!--                <EditText-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="@dimen/_30sdp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_12sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+                <!--                    android:background="@drawable/edittext_border"-->
+                <!--                    android:hint="Kode Pos"-->
+                <!--                    android:inputType="number"-->
+                <!--                    android:paddingStart="@dimen/_10sdp" />-->
 
 
-                <EditText
-                    android:id="@+id/etProvinsi"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_gravity="center"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_13sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/edittext_border"
-                    android:hint="Provinsi"
-                    android:inputType="text"
-                    android:paddingStart="@dimen/_10sdp" />
+                    android:background="@drawable/edittext_border">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etProvinsi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:hint="Provinsi"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <EditText
-                    android:id="@+id/etKota"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_gravity="center"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_13sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/edittext_border"
-                    android:hint="Kota/Kabupaten"
-                    android:inputType="text"
-                    android:paddingStart="@dimen/_10sdp" />
+                    android:background="@drawable/edittext_border">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etKota"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:hint="Kota"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <EditText
-                    android:id="@+id/etKecamatan"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_gravity="center"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_13sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:background="@drawable/edittext_border"
-                    android:hint="Kecamatan"
-                    android:inputType="text"
-                    android:paddingStart="@dimen/_10sdp" />
+                    android:background="@drawable/edittext_border">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etKecamatan"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:hint="Kecamatan"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <EditText
-                    android:id="@+id/etNotes"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="@dimen/_45sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_13sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_18sdp"
-                    android:background="@drawable/edittext_border"
-                    android:hint="Notes"
-                    android:inputType="text"
-                    android:paddingStart="@dimen/_10sdp" />
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:background="@drawable/edittext_border">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNotes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:hint="Notes"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </LinearLayout>
@@ -205,6 +246,7 @@
             android:text="Confirm"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:clickable="true"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

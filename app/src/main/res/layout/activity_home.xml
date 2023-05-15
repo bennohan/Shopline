@@ -10,18 +10,22 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E5E5E5"
+        android:background="#FAEEEB"
         tools:context=".ui.home.HomeActivity">
 
-
-        <EditText
+        <TextView
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/_16sdp"
+            android:foreground="?selectableItemBackgroundBorderless"
             android:background="@drawable/edittext_border"
             android:backgroundTint="@color/white"
+            android:drawablePadding="@dimen/_6sdp"
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:hint="Search"
             android:paddingStart="@dimen/_10sdp"
@@ -34,6 +38,7 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_marginEnd="16dp"
             imageUrlCircle='@{user.image}'
+            android:background="?selectableItemBackgroundBorderless"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/editText"
             app:layout_constraintTop_toTopOf="parent" />
@@ -48,14 +53,17 @@
             app:layout_constraintEnd_toStartOf="@+id/ivProfile"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+
+        <com.denzcoskun.imageslider.ImageSlider
             android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="190dp"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/_12sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            android:src="@drawable/placeholder"
+            app:iss_auto_cycle="true"
+            app:iss_delay="0"
+            app:iss_period="6000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editText" />
@@ -82,6 +90,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:textStyle="bold"
                     android:text="Produk-produk Unggulan"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -119,14 +129,35 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
 
                 <TextView
+                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
+                    android:textStyle="bold"
+                    android:paddingStart="@dimen/_10sdp"
                     android:text="Produk-produk Unggulan"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvShowMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_70sdp"
+                        android:text="Show More"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHome2"
@@ -146,6 +177,66 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardShowMore"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_350sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent">
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:paddingStart="@dimen/_10sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Produk-produk Unggulan"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvHideProduct"
+                    android:layout_width="89dp"
+                    android:layout_height="26dp"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:text="Hide Product"
+                    android:textSize="15sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHome3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/textView"
+                    android:padding="@dimen/_10sdp"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:layout_editor_absoluteX="156dp"
+                    tools:layout_editor_absoluteY="319dp"
+                    tools:listitem="@layout/item_home" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

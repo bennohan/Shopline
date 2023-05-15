@@ -1,6 +1,7 @@
 package com.bennohan.shopline.ui.login
 
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -9,8 +10,10 @@ import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.databinding.ActivityLoginBinding
 import com.bennohan.shopline.ui.home.HomeActivity
 import com.crocodic.core.api.ApiStatus
-import com.crocodic.core.extension.*
-import com.google.android.material.snackbar.Snackbar
+import com.crocodic.core.extension.isEmptyRequired
+import com.crocodic.core.extension.openActivity
+import com.crocodic.core.extension.snacked
+import com.crocodic.core.extension.textOf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -19,15 +22,13 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.navigationBarColor = resources.getColor(R.color.mainColor)
-        window.statusBarColor = resources.getColor(R.color.mainColor)
-
+        window.navigationBarColor = ContextCompat.getColor(this,R.color.mainColor)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.mainColor)
 
         binding.btnLogin.setOnClickListener {
             //Show alert if Text View is Empty
-            if (binding.etPhone.isEmptyRequired(R.string.mustFill) || binding.etPassword.isEmptyRequired(
-                    R.string.mustFill
-                )
+            if (binding.etPhone.isEmptyRequired(R.string.mustFill) ||
+                binding.etPassword.isEmptyRequired(R.string.mustFill)
             ) {
                 return@setOnClickListener
             }
@@ -39,14 +40,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                 launch {
                     viewModel.apiResponse.collect {
                         when (it.status) {
-                            ApiStatus.LOADING -> loadingDialog.show("login..in")
+                            ApiStatus.LOADING -> loadingDialog.show("login...in")
                             ApiStatus.SUCCESS -> {
-//                                val snackbar = Snackbar.make(
-//                                    binding.constraintLayout,
-//                                    "Login Success",
-//                                    Snackbar.LENGTH_LONG
-//                                )
-//                                snackbar.show()
+                                binding.root.snacked(it.message ?: "Login Success")
 //                                tos(it.message ?: "Login Success")
                                 binding.root.snacked("Login Success")
                                 loadingDialog.dismiss()
@@ -57,6 +53,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding, LoginViewModel>(R.layou
                                 disconnect(it)
                                 loadingDialog.dismiss()
                                 loadingDialog.setResponse(it.message ?: return@collect)
+                                binding.root.snacked(it.message ?: "Login Failed")
 //                                tos(it.message ?: "Login Failed")
 //                                tos(it.message ?: "Please Check Your Phone And Password Again")
                             }

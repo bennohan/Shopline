@@ -3,6 +3,7 @@ package com.bennohan.shopline.ui.splash
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.core.content.ContextCompat
 import com.bennohan.shopline.R
 import com.bennohan.shopline.data.Session
 import com.bennohan.shopline.databinding.ActivityMainBinding
@@ -22,8 +23,9 @@ class MainActivity : NoViewModelActivity<ActivityMainBinding>(R.layout.activity_
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.statusBarColor = resources.getColor(R.color.splashColor)
-        window.navigationBarColor = resources.getColor(R.color.splashColor)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.backround)
+        window.navigationBarColor = ContextCompat.getColor(this,R.color.backround)
+
 
 
         //Handler Looper Splash

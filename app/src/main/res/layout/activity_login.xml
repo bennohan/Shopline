@@ -7,7 +7,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E5E5E5"
+        android:background="#FAEEEB"
         tools:context=".ui.login.LoginActivity">
 
         <ImageView
@@ -144,6 +144,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPassword" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

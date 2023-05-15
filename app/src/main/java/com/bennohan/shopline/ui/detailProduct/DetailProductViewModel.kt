@@ -39,7 +39,7 @@ class DetailProductViewModel @Inject constructor(
                     product.emit(data)
                     val image = response.getJSONArray("image_sliders").toList<ImageSlide>(gson)
                     imageSlider.emit(image)
-                    _apiResponse.send(ApiResponse().responseSuccess())
+//                    _apiResponse.send(ApiResponse().responseSuccess())
                 }
 
                 override suspend fun onError(response: ApiResponse) {

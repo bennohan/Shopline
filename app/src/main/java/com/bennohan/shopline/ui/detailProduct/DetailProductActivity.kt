@@ -1,7 +1,9 @@
 package com.bennohan.shopline.ui.detailProduct
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -43,8 +45,11 @@ class DetailProductActivity :
                 listColor[position]?.let { data ->
                     holder.binding.data = data
                     holder.binding.cardView.setBackgroundColor(
-                        if (data.selected) applicationContext.getColor(R.color.mainColor)
-                        else applicationContext.getColor(R.color.white)
+                        if (data.selected) {
+                            applicationContext.getColor(R.color.mainColor)
+                        } else {
+                            applicationContext.getColor(R.color.white)
+                        }
                     )
 
                     //Data
@@ -54,7 +59,7 @@ class DetailProductActivity :
                         }
                         notifyDataSetChanged()
                         selectColor = data
-                        condititonForColor(data.id)
+                        conditionForColor(data.id)
                         Timber.d("CekListColors: $listColor")
                         println("CekListColors: $listColor")
                     }
@@ -84,8 +89,21 @@ class DetailProductActivity :
                         selectSize = data
                         Timber.d("CekListColors: $listSize")
                         println("CekListColors: $listSize")
+                        if (data.selected) {
+//                            binding.btnAddCart.setBackgroundColor(getResources().getColor(R.drawable.))
+                            binding.btnAddCart.setBackgroundDrawable(getDrawable(R.drawable.button_border))
+
+                        } else {
+//                            binding.btnAddCart.setBackgroundColor(getResources().getColor(R.color.black))
+                        }
                     }
+
+                    Log.d("cek selected", "cek selected : ${data.selected}")
+
+
                 }
+
+
             }
 
         }.initItem()
@@ -97,20 +115,25 @@ class DetailProductActivity :
         observe()
 
         productData()
-        window.statusBarColor = resources.getColor(R.color.mainColor)
+        window.statusBarColor = ContextCompat.getColor(this,R.color.mainColor)
 
 
         binding.rvVariant.adapter = adapterVariant
         binding.rvSize.adapter = adapterSize
 
 
+//        binding.imageSlider.setOnClickListener {
+//            ImagePreviewHelper(this).show(binding.imageSlider, binding.user?.foto)
+//        }
+
         binding.btnBack.setOnClickListener {
-            onBackPressed()
+            finish()
         }
 
         binding.btnAddCart.setOnClickListener {
             addCart()
         }
+
 
     }
 
@@ -129,10 +152,13 @@ class DetailProductActivity :
                 launch {
                     viewModel.apiResponse.collect {
                         when (it.status) {
-                            ApiStatus.LOADING -> loadingDialog.show()
+                            ApiStatus.LOADING -> {
+                                loadingDialog.show()
+                            }
                             ApiStatus.SUCCESS -> {
                                 loadingDialog.dismiss()
 //                                tos("Product Added to Cart")
+                                binding.root.snacked("Product Added to Your Cart")
                                 loadingDialog.setResponse(it.message ?: return@collect)
                             }
                             ApiStatus.ERROR -> {
@@ -175,8 +201,6 @@ class DetailProductActivity :
                         println("ListSizes: ${product.sizes}")
                     }
                 }
-
-
             }
         }
     }
@@ -189,7 +213,7 @@ class DetailProductActivity :
         binding.imageSlider.setImageList(imageList, ScaleTypes.CENTER_CROP)
     }
 
-    private fun condititonForColor(idVarian: Int?) {
+    private fun conditionForColor(idVarian: Int?) {
         if (selectColor == null) {
             binding.rvSize.visibility = View.INVISIBLE
         } else {
@@ -207,9 +231,14 @@ class DetailProductActivity :
 
 
     private fun addCart() {
-        selectSize?.let {
-            viewModel.addCart(sizeId = selectSize?.id)
+        Log.d("cekSelectedAdd","cekSelectedAdd : ${selectSize?.selected}")
+        if (selectSize?.selected == true) {
+            selectSize?.let {
+                viewModel.addCart(sizeId = selectSize?.id)
 
+            }
+        } else {
+             binding.root.snacked("Pilih Variant dan Ukuran Terlebih dahulu")
         }
     }
 }

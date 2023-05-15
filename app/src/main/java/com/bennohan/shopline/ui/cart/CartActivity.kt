@@ -1,8 +1,10 @@
 package com.bennohan.shopline.ui.cart
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -16,7 +18,6 @@ import com.crocodic.core.api.ApiStatus
 import com.crocodic.core.base.adapter.ReactiveListAdapter
 import com.crocodic.core.extension.openActivity
 import com.crocodic.core.extension.snacked
-import com.crocodic.core.extension.tos
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,17 +37,31 @@ class CartActivity : BaseActivity<ActivityCartBinding, CartViewModel>(R.layout.a
                 item?.let { itm ->
                     val productId = item.id
                     var totalProduct = item.totalProduct ?: 1
-                    val totalProductPrice = item.totalCost
                     Log.d("cek id", "cek id : $productId ")
                     holder.binding.data = itm
                     holder.bind(itm)
 
                     //Button Delete
                     holder.binding.btnDelete.setOnClickListener {
-                        binding.root.snacked("Product Removed")
-                        productId?.let {
-                            viewModel.deleteCart(id = it)
-                        }
+
+                        val builder = AlertDialog.Builder(this@CartActivity)
+                        builder.setMessage("Apakah Anda Ingin Menghapus Produk")
+                            .setCancelable(false)
+                            //setPositive button (tombol untuk iya)
+                            .setPositiveButton("Hapus") { dialog, id ->
+                                binding.root.snacked("Product DiHapus")
+                                productId?.let {
+                                    viewModel.deleteCart(it, position)
+                                }
+                                getCart()
+                            }
+                            //setNegative Button Tombol untuk tidak
+                            .setNegativeButton("Tidak") { dialog, id ->
+                                // Dismiss the dialog
+                                dialog.dismiss()
+                            }
+                        val alert = builder.create()
+                        alert.show()
                     }
 
                     //Button Add
@@ -64,27 +79,19 @@ class CartActivity : BaseActivity<ActivityCartBinding, CartViewModel>(R.layout.a
                     holder.binding.btnRemove.setOnClickListener {
                         binding.root.snacked("Min")
 //                        var min = itm.totalProduct ?: 1
+                        if (totalProduct == 1) {
+                            binding.root.snacked("test")
+                        }
                         if (totalProduct != 1) {
                             totalProduct--
                             viewModel.editCart(productId ?: 1, totalProduct)
                             holder.binding.etTotalProduct.text = totalProduct.toString()
+                        } else {
+
                         }
 
                     }
 
-                    //Text Data Kosong
-                    if (item == null){
-                        binding.btnCheckout.setOnClickListener {
-//                            binding.root.snacked("Tambahkan Produk Dahulu")
-                            tos("Tambahkan Produk Dahulu")
-                        }
-                        binding.tvkosong.visibility = View.VISIBLE
-                    } else {
-                        binding.btnCheckout.setOnClickListener {
-                            openActivity<CheckoutActivity>()
-                        }
-                        binding.tvkosong.visibility = View.GONE
-                    }
 
                 }
 
@@ -97,20 +104,22 @@ class CartActivity : BaseActivity<ActivityCartBinding, CartViewModel>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        getProduct()
         observe()
+        getCart()
 
         binding.rvCart.adapter = adapterCart
 
-        viewModel.getCart()
-
-
-
         binding.btnBack.setOnClickListener {
-            onBackPressed()
+            finish()
+        }
+        binding.swipeLayout.setOnRefreshListener {
+            getCart()
         }
 
+    }
 
+    private fun getCart() {
+        viewModel.getCart()
     }
 
     private fun observe() {
@@ -121,6 +130,9 @@ class CartActivity : BaseActivity<ActivityCartBinding, CartViewModel>(R.layout.a
                         when (it.status) {
                             ApiStatus.SUCCESS -> {
 
+                                it.flagView?.let {
+                                    adapterCart.notifyItemRemoved(it)
+                                }
                             }
                             else -> {
 
@@ -132,22 +144,31 @@ class CartActivity : BaseActivity<ActivityCartBinding, CartViewModel>(R.layout.a
                 launch {
                     viewModel.responseProduct.collect { product ->
                         adapterCart.submitList(product)
+                        binding.swipeLayout.isRefreshing = false
+
+                        //Button Checkout
+                        if (product.isEmpty()) {
+                            binding.btnCheckout.background =
+                                ContextCompat.getDrawable(this@CartActivity,R.drawable.button_drawable_grey)
+                            binding.btnCheckout.setOnClickListener {
+//                                binding.root.snacked("Tambahkan Produk ke Keranjang Terlebih Dahulu")
+                            }
+                        } else {
+                            binding.btnCheckout.setOnClickListener {
+                                openActivity<CheckoutActivity>()
+                            }
+                        }
+
+                        //Text Data Kosong
+                        if (product.isEmpty()) {
+                            binding.tvkosong.visibility = View.VISIBLE
+                        } else {
+                            binding.tvkosong.visibility = View.GONE
+
+                        }
                     }
-
                 }
-
             }
         }
     }
-
-
-    private fun getProduct() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-            }
-        }
-    }
-
-
 }

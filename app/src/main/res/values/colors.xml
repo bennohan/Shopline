@@ -9,4 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="mainColor">#FA5531</color>
     <color name="splashColor">#E5E5E5</color>
+    <color name="grey">#959595</color>
+    <color name="colorSearch">#FFECE1</color>
+    <color name="red">#E80D0D</color>
+    <color name="backround">#FAEEEB</color>
+    <color name="transparent">#00FFECE1</color>
+
+
 </resources>

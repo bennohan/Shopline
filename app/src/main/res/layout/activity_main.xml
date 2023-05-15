@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#E5E5E5"
+        android:background="#FAEEEB"
         tools:context=".ui.splash.MainActivity">
 
         <ImageView
@@ -20,17 +20,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
-                android:layout_width="158dp"
-                android:layout_height="170dp"
-                android:shadowColor="@color/black"
-                android:src="@drawable/shopline_logo"
-                android:layout_marginTop="342dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-
+        <ImageView
+            android:layout_width="158dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="342dp"
+            android:shadowColor="@color/black"
+            android:src="@drawable/shopline_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
