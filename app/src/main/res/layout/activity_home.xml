@@ -29,6 +29,7 @@
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:hint="Search"
             android:paddingStart="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
             android:textColorHint="#FA5531"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
                     android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:textStyle="bold"
                     android:text="Produk-produk Unggulan"
                     android:textColor="@color/black"
@@ -144,7 +146,7 @@
                     android:paddingStart="@dimen/_10sdp"
                     android:text="Produk-produk Unggulan"
                     android:textColor="@color/black"
-                    android:textSize="15sp" />
+                    android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tvShowMore"
@@ -154,7 +156,7 @@
                         android:layout_marginStart="@dimen/_70sdp"
                         android:text="Show More"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -180,11 +182,12 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardShowMore"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_350sdp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent">
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -194,27 +197,26 @@
                 android:layout_gravity="center"
                 android:orientation="vertical">
 
-
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
                     android:paddingStart="@dimen/_10sdp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="Produk-produk Unggulan"
                     android:textColor="@color/black"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tvHideProduct"
-                    android:layout_width="89dp"
-                    android:layout_height="26dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_8sdp"
                     android:text="Hide Product"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/_13sdp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -226,9 +228,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/textView"
                     android:padding="@dimen/_10sdp"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/textView"
                     app:spanCount="2"
                     tools:layout_editor_absoluteX="156dp"
                     tools:layout_editor_absoluteY="319dp"

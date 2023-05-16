@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.bennohan.shopline.api.ApiService
 import com.bennohan.shopline.base.BaseViewModel
 import com.bennohan.shopline.data.Session
+import com.bennohan.shopline.data.room.UserDao
 import com.crocodic.core.api.ApiObserver
 import com.crocodic.core.api.ApiResponse
 import com.google.gson.Gson
@@ -17,6 +18,7 @@ class ProfileViewModel @Inject constructor(
     private val apiService: ApiService,
     private val gson: Gson,
     private val session: Session,
+    private val userDao: UserDao
 ) : BaseViewModel() {
 
     // logout
@@ -24,7 +26,8 @@ class ProfileViewModel @Inject constructor(
         ApiObserver({ apiService.logout() },
             false, object : ApiObserver.ResponseListener {
                 override suspend fun onSuccess(response: JSONObject) {
-                    session.clearAll()
+                    userDao.deleteAll()
+//                    session.clearAll()
                     _apiResponse.send(ApiResponse().responseSuccess())
                 }
 

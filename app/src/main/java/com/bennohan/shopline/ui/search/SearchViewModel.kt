@@ -1,38 +1,43 @@
-package com.bennohan.shopline.ui.login
+package com.bennohan.shopline.ui.search
 
 import androidx.lifecycle.viewModelScope
 import com.bennohan.shopline.api.ApiService
 import com.bennohan.shopline.base.BaseViewModel
-import com.bennohan.shopline.data.Cons
+import com.bennohan.shopline.data.Product
 import com.bennohan.shopline.data.Session
+import com.crocodic.core.api.ApiCode
 import com.crocodic.core.api.ApiObserver
 import com.crocodic.core.api.ApiResponse
+import com.crocodic.core.extension.toList
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel
-@Inject constructor(
+class SearchViewModel @Inject constructor(
     private val apiService: ApiService,
     private val gson: Gson,
     private val session: Session,
 ) : BaseViewModel() {
 
-    //Login Function
-    fun login(
-        phone: String,
-        password: String,
+     private var _product = MutableSharedFlow<List<Product?>>()
+    var product = _product.asSharedFlow()
+//    private var _productt = MutableSharedFlow<List<Product?>>()
+    var allProduct = _product.asSharedFlow()
+
+
+    fun getProduct(
     ) = viewModelScope.launch {
-        _apiResponse.send(ApiResponse().responseLoading())
-        ApiObserver({ apiService.login(phone, password) },
+        ApiObserver({ apiService.getProduct() },
             false, object : ApiObserver.ResponseListener {
                 override suspend fun onSuccess(response: JSONObject) {
-                    val token = response.getString("token")
-                    session.setValue(Cons.TOKEN.API_TOKEN,token)
+                    val data = response.getJSONArray(ApiCode.DATA).toList<Product>(gson)
                     _apiResponse.send(ApiResponse().responseSuccess())
+                    _product.emit(data)
 
                 }
 
@@ -43,5 +48,6 @@ class LoginViewModel
                 }
             })
     }
+
 
 }

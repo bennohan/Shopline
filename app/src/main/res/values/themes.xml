@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorControlNormal">#FFEB3B</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

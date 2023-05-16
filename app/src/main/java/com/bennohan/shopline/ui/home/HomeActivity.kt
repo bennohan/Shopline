@@ -12,7 +12,7 @@ import com.bennohan.shopline.R
 import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.data.Cons
 import com.bennohan.shopline.data.Product
-import com.bennohan.shopline.data.Session
+import com.bennohan.shopline.data.room.UserDao
 import com.bennohan.shopline.databinding.ActivityHomeBinding
 import com.bennohan.shopline.databinding.ItemHomeBinding
 import com.bennohan.shopline.ui.cart.CartActivity
@@ -31,14 +31,17 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.activity_home) {
 
+//    @Inject
+//    lateinit var session: Session
+
     @Inject
-    lateinit var session: Session
+    lateinit var userDao: UserDao
 
 
     private val adapter by lazy {
         ReactiveListAdapter<ItemHomeBinding, Product>(R.layout.item_home).initItem { position, data ->
             openActivity<DetailProductActivity> {
-                putExtra(Cons.PRODUCT.ID,  data)
+                putExtra(Cons.PRODUCT.ID, data)
             }
         }
     }
@@ -46,11 +49,14 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        this.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        supportActionBar?.hide()
+
         observe()
         getUser()
         imageSlider()
 
-        window.statusBarColor = ContextCompat.getColor(this,R.color.white)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
 
 
         //Ask About This
@@ -87,9 +93,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
                     viewModel.apiResponse.collect {
                         when (it.status) {
                             ApiStatus.SUCCESS -> {
-                                val user = session.getUser()
-                                binding.user = user
-
+                                getUserData()
                             }
                             else -> {
 
@@ -104,21 +108,28 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
                     viewModel.product.collect { product ->
                         adapter.submitList(product)
                     }
-//                    viewModel.getProduct.collect { notes ->
-//                        adapter.submitList(notes)
-//                    }
                 }
 
             }
         }
     }
 
-    private fun imageSlider(){
+    private fun imageSlider() {
         val imageList = ArrayList<SlideModel>()
 
         imageList.add(SlideModel("https://marketplace.canva.com/EAE7S1WxJW8/1/0/1600w/canva-orange-modern-promotion-sport-shoes-banner-suttfK_s9zg.jpg"))
-        imageList.add(SlideModel("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/supper-sale-banner-ad-for-shoes-offre-design-template-263b3813e52a6a6eb85fa45fd49ca3b4_screen.jpg?ts=1625994393",ScaleTypes.FIT))
-        imageList.add(SlideModel("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/shoes-sale-bannuer-design-template-38d8c87b5b44afb4906d2d55743a98ae_screen.jpg?ts=1616352652",ScaleTypes.FIT))
+        imageList.add(
+            SlideModel(
+                "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/supper-sale-banner-ad-for-shoes-offre-design-template-263b3813e52a6a6eb85fa45fd49ca3b4_screen.jpg?ts=1625994393",
+                ScaleTypes.FIT
+            )
+        )
+        imageList.add(
+            SlideModel(
+                "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/shoes-sale-bannuer-design-template-38d8c87b5b44afb4906d2d55743a98ae_screen.jpg?ts=1616352652",
+                ScaleTypes.FIT
+            )
+        )
 
         binding.imageView6.setImageList(imageList)
     }
@@ -126,6 +137,12 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>(R.layout.a
 
     private fun getUser() {
         viewModel.getProfile()
+    }
+
+    private fun getUserData() {
+        userDao.getUser().observe(this@HomeActivity) { userData ->
+            binding.user = userData
+        }
     }
 
     override fun onBackPressed() {

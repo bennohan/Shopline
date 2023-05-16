@@ -4,6 +4,7 @@ import android.content.Context
 import com.bennohan.shopline.api.ApiService
 import com.bennohan.shopline.data.Cons
 import com.bennohan.shopline.data.Session
+import com.bennohan.shopline.data.room.AppDatabase
 import com.crocodic.core.helper.okhttp.SSLTrust
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -19,20 +20,31 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 
 @InstallIn(SingletonComponent::class)
 @Module
 class DataModule {
 
+    @Singleton
+    @Provides
+    fun provideUserDao(appDatabase: AppDatabase) = appDatabase.userDao()
+
+    @Singleton
     @Provides
     fun provideGson() =
         GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
 
+    @Singleton
     @Provides
     fun provideSession(@ApplicationContext context: Context, gson: Gson) = Session(context, gson)
 
+    @Singleton
+    @Provides
+    fun provideAppDatabse(@ApplicationContext context: Context) = AppDatabase.getDatabase(context)
 
+    @Singleton
     @Provides
     fun provideOkHttpClient(session: Session): OkHttpClient {
 
@@ -67,6 +79,7 @@ class DataModule {
         return okHttpClient.build()
     }
 
+    @Singleton
     @Provides
     fun provideApiService(okHttpClient: OkHttpClient): ApiService {
         return Retrofit.Builder()

@@ -25,8 +25,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bennohan.shopline.R
 import com.bennohan.shopline.base.BaseActivity
 import com.bennohan.shopline.data.Session
+import com.bennohan.shopline.data.room.UserDao
 import com.bennohan.shopline.databinding.ActivityEditProfileBinding
 import com.crocodic.core.api.ApiStatus
+import com.crocodic.core.extension.isEmptyRequired
 import com.crocodic.core.extension.snacked
 import com.crocodic.core.extension.textOf
 import com.crocodic.core.extension.tos
@@ -54,6 +56,10 @@ class EditProfileActivity :
     private var userPhone: String? = null
     private var filePhoto: File? = null
 
+    @Inject
+    lateinit var userDao: UserDao
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -68,6 +74,11 @@ class EditProfileActivity :
 
         binding.btnConfirm.setOnClickListener {
             validateForm()
+            if (filePhoto == null){
+                updateProfile()
+            } else{
+                updateProfilePhoto()
+            }
         }
 
         binding.btnProfile.setOnClickListener {
@@ -81,13 +92,42 @@ class EditProfileActivity :
 
     }
 
-    private fun getUser() {
-        val user = session.getUser()
-        binding.user = user
-        username = user?.name
-        userPhone = user?.phoneNumber
-        Log.d("cek nama","$username")
+    private fun updateProfilePhoto() {
+        val name = binding.tvName.textOf()
+        val phone = binding.etPhone.textOf()
 
+        lifecycleScope.launch {
+                val compressesFile = compressFile(filePhoto!!)
+                Log.d("Compress", "File: $compressesFile")
+                if (compressesFile != null) {
+                    viewModel.updateUserPhoto(name, phone, compressesFile)
+                }
+            }
+
+    }
+
+    private fun updateProfile() {
+        val name = binding.tvName.textOf()
+        val phone = binding.etPhone.textOf()
+
+        if (name == username && phone == userPhone) {
+                Log.d("cekUserName", "cekUserName : $username")
+                binding.root.snacked("tidak ada data yang berubah")
+                return
+            } else{
+                viewModel.updateUser(name, phone)
+            }
+
+    }
+
+    private fun getUser() {
+//        val user = session.getUser()
+        userDao.getUser().observe(this@EditProfileActivity) { userData ->
+            binding.user = userData
+            username = userData.name
+            userPhone = userData.phoneNumber
+        }
+        Log.d("cek nama","$username")
     }
 
     private fun validateForm() {
@@ -95,31 +135,11 @@ class EditProfileActivity :
         val phone = binding.etPhone.textOf()
 
         if (name.isEmpty()) {
-            binding.root.snacked("Nama tidak boleh kosong")
-            return
+            binding.tvName.isEmptyRequired(R.string.emptyRequired)
         }
 
         if (phone.isEmpty()) {
-            binding.root.snacked("Nomor Telphone tidak boleh kosong")
-            return
-        }
-
-
-        if (filePhoto == null) {
-            if (name == username) {
-                Log.d("cekUserName", "cekUserName : $username")
-                binding.root.snacked("tidak ada data yang berubah")
-                return
-            }
-            viewModel.updateUser(name, phone)
-        } else {
-            lifecycleScope.launch {
-                val compressesFile = compressFile(filePhoto!!)
-                Log.d("Compress", "File: $compressesFile")
-                if (compressesFile != null) {
-                    viewModel.updateUserPhoto(name, phone, compressesFile)
-                }
-            }
+            binding.etPhone.isEmptyRequired(R.string.emptyRequired)
         }
     }
 

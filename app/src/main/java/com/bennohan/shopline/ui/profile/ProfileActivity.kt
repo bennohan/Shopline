@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.bennohan.shopline.R
 import com.bennohan.shopline.base.BaseActivity
-import com.bennohan.shopline.data.Session
+import com.bennohan.shopline.data.room.UserDao
 import com.bennohan.shopline.databinding.ActivityProfileBinding
 import com.bennohan.shopline.ui.editProfile.EditProfileActivity
 import com.bennohan.shopline.ui.login.LoginActivity
@@ -26,8 +26,12 @@ import javax.inject.Inject
 class ProfileActivity :
     BaseActivity<ActivityProfileBinding, ProfileViewModel>(R.layout.activity_profile) {
 
+//    @Inject
+//    lateinit var session: Session
+
     @Inject
-    lateinit var session: Session
+    lateinit var userDao: UserDao
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +87,10 @@ class ProfileActivity :
     }
 
     private fun getUser() {
-        val user = session.getUser()
-        binding.user = user
+//        val user = userDao.getUser().observe(this@ProfileActivity)
+         userDao.getUser().observe(this@ProfileActivity){ user->
+            binding.user = user
+        }
     }
 
     private fun logout() {

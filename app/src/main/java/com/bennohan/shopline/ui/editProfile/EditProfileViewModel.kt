@@ -3,8 +3,8 @@ package com.bennohan.shopline.ui.editProfile
 import androidx.lifecycle.viewModelScope
 import com.bennohan.shopline.api.ApiService
 import com.bennohan.shopline.base.BaseViewModel
-import com.bennohan.shopline.data.Session
 import com.bennohan.shopline.data.User
+import com.bennohan.shopline.data.room.UserDao
 import com.crocodic.core.api.ApiCode
 import com.crocodic.core.api.ApiObserver
 import com.crocodic.core.api.ApiResponse
@@ -23,7 +23,8 @@ import javax.inject.Inject
 class EditProfileViewModel @Inject constructor(
     private val apiService: ApiService,
     private val gson: Gson,
-    private val session: Session,
+//    private val session: Session,
+    private val userDao: UserDao
 ) : BaseViewModel() {
 
     //Function Update Profile
@@ -33,8 +34,8 @@ class EditProfileViewModel @Inject constructor(
                 override suspend fun onSuccess(response: JSONObject) {
                     val data = response.getJSONObject(ApiCode.DATA).toObject<User>(gson)
                     _apiResponse.send(ApiResponse().responseSuccess())
-                    session.saveUser(data)
-
+                    userDao.insert(data.copy(idRoom = 1))
+//                    session.saveUser(data)
                 }
 
                 override suspend fun onError(response: ApiResponse) {
@@ -54,7 +55,8 @@ class EditProfileViewModel @Inject constructor(
                 override suspend fun onSuccess(response: JSONObject) {
                     val data = response.getJSONObject(ApiCode.DATA).toObject<User>(gson)
                     _apiResponse.send(ApiResponse().responseSuccess("Profile Picture Updated"))
-                    session.saveUser(data)
+                    userDao.insert(data.copy(idRoom = 1))
+//                    session.saveUser(data)
                 }
 
                 override suspend fun onError(response: ApiResponse) {
